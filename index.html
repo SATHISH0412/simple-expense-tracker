@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>expense-tracker</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.min.js"
+        integrity="sha512-L0Shl7nXXzIlBSUUPpxrokqq4ojqgZFQczTYlGjzONGTDAcLremjwaWv5A+EDLnxhQzY5xUZPWLOLqYRkY0Cbw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+        integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+</head>
+
+<body>
+    <div class="container-fluid position-relative">
+
+        <nav class="navbar navbar-expand-lg bg-body-tertiary  position-sticky start-0  m-auto rounded-5"
+            style="top: 10px  !important; width: 95% !important;">
+            <div class="container-fluid ">
+                <a class="navbar-brand" href="#">Expense-Tracker</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false"
+                    aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNavDropdown">
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+                            <a class="nav-link " aria-current="page" href="#"><button type="button"
+                                    class="btn text-center" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                                    Cash-In
+                                </button></a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#"><button type="button" class="btn" data-bs-toggle="modal"
+                                    data-bs-target="#staticBackdrop1">
+                                    cash-out
+                                </button></a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link" href="display/display.html"><button type="button" class="btn">
+                                    Display
+                                </button></a>
+                        </li>
+                        <li class="nav-item" id="auth-link">
+
+                        </li>
+
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+        <div class=" position-relative">
+
+            <!-- Modal for cash in -->
+            <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+                aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="staticBackdropLabel">Cash-In</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="w-100">
+                                <form action="" class="row" id="cashinform">
+                                    <div class="col-12 col-md-6 g-2">
+                                        <div>
+                                            <label for="amount" class="form-label">Amount</label>
+                                            <input type="number" required id="amount" name="amount" class="form-control"
+                                                placeholder="ex: 2000">
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-md-6 g-2">
+                                        <div>
+                                            <label for="refno" class="form-label">Reference No</label>
+                                            <input type="text" id="refno" name="refno" class="form-control"
+                                                placeholder="">
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-md-6 g-2">
+                                        <div>
+                                            <label for="type" class="form-label">Type</label>
+                                            <input type="text" required id="type" name="type" class="form-control"
+                                                placeholder="" disabled value="CashIn">
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-md-6 g-2">
+                                        <div>
+                                            <label for="mode" class="form-label">Payment Mode</label>
+                                            <select name="mode" id="mode" aria-placeholder="" class="form-select">
+                                                <option value="Enter the value">Enter the Payment Type</option>
+                                                <option value="NEFT">NEFT</option>
+                                                <option value="UPI">UPI</option>
+                                                <option value="cash">cash</option>
+                                                <option value="Cheque">Cheque</option>
+                                                <option value="Others">Others</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <label for="source" class="form-label">Source of Income</label>
+                                        <select name="source" id="source" class="form-select">
+                                            <option value="">Enter the Type</option>
+                                            <option value="Salary">Salary</option>
+                                            <option value="Home">Home</option>
+                                            <option value="Part-time">Part-time</option>
+                                            <option value="Gift">Gift</option>
+                                            <option value="Others">Others</option>
+                                        </select>
+                                        
+                                    </div>
+                                    <div class="col-12 col-md-6 g-2">
+                                        <div>
+                                            <label for="Support-File" class="form-label">Support File</label>
+                                            <input type="file" id="Support-File" name="Support-File"
+                                                class="form-control" placeholder=".png,.jpg, .pdf .etc...">
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-md-6 g-2">
+                                        <div>
+                                            <label for="day" class="form-label">Date</label>
+                                            <input type="date" required id="day" name="day" class="form-control"
+                                                placeholder="">
+                                        </div>
+                                    </div>
+                                    <div class="col-12 g-2">
+                                        <div>
+                                            <label for="desc" class="form-label">Description</label>
+                                            <textarea name="desc" id="desc" class="form-control"></textarea>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-6 g-2">
+                                        <div>
+                                            <button type="reset" class="btn btn-danger form-control">Clear</button>
+                                        </div>
+
+                                    </div>
+                                    <div class="col-6 g-2">
+                                        <div>
+                                            <button type="submit" class="btn btn-success form-control">Submit</button>
+                                        </div>
+
+                                    </div>
+                                </form>
+
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modal for cash out-->
+            <div class="modal fade" id="staticBackdrop1" data-bs-backdrop="static" data-bs-keyboard="false"
+                tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="staticBackdropLabel">Cash-out</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="w-100">
+                                <form action="" class="row" id="cashoutform">
+                                    <div class="col-12 col-md-6 g-2">
+                                        <div>
+                                            <label for="amount" class="form-label">Amount</label>
+                                            <input type="number" required id="amount" name="amount" class="form-control"
+                                                placeholder="ex: 2000">
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-md-6 g-2">
+                                        <div>
+                                            <label for="refno" class="form-label">Reference No</label>
+                                            <input type="text" id="refno" name="refno" class="form-control"
+                                                placeholder="">
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-md-6 g-2">
+                                        <div>
+                                            <label for="type" class="form-label">Type</label>
+                                            <input type="text" required id="type" name="type" class="form-control"
+                                                placeholder="" disabled value="CashOut">
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-md-6 g-2">
+                                        <div>
+                                            <label for="mode" class="form-label">Payment Mode</label>
+                                            <select name="mode" id="mode" aria-placeholder="" class="form-select">
+                                                <option value="Enter the value">Enter the Payment Type</option>
+                                                <option value="NEFT">NEFT</option>
+                                                <option value="UPI">UPI</option>
+                                                <option value="cash">cash</option>
+                                                <option value="Cheque">Cheque</option>
+                                                <option value="Others">Others</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 g-2">
+                                        <div>
+                                            <label for="source" class="form-label">Source of Expense:</label>
+                                            <select name="source" id="outsource" class="form-select">
+                                                <option value="" disabled selected>Select Type</option>
+                                                <option value="Rent">Rent</option>
+                                                <option value="Food">Food</option>
+                                                <option value="Home">Home</option>
+                                                <option value="Outing">Outing</option>
+                                                <option value="Essentials">Essentials</option>
+                                                <option value="Travel">Travel</option>
+                                                <option value="Others">Others</option>
+                                            </select>
+
+                                            <!-- This must be present -->
+                                            <input type="text" id="customSource" placeholder="Enter custom source"
+                                                class="form-control mt-2" style="display: none;">
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-md-6 g-2">
+                                        <div>
+                                            <label for="Support-File" class="form-label">Support File</label>
+                                            <input type="file" id="Support-File" name="Support-File"
+                                                class="form-control" placeholder=".png,.jpg, .pdf .etc...">
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-md-6 g-2">
+                                        <div>
+                                            <label for="day" class="form-label">Date</label>
+                                            <input type="date" required id="day" name="day" class="form-control"
+                                                placeholder="">
+                                        </div>
+                                    </div>
+                                    <div class="col-12 g-2">
+                                        <div>
+                                            <label for="desc" class="form-label">Description</label>
+                                            <textarea name="desc" id="desc" class="form-control"></textarea>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-6 g-2">
+                                        <div>
+                                            <button type="reset" class="btn btn-danger form-control">Clear</button>
+                                        </div>
+
+                                    </div>
+                                    <div class="col-6 g-2">
+                                        <div>
+                                            <button type="submit" class="btn btn-success form-control">Submit</button>
+                                        </div>
+
+                                    </div>
+                                </form>
+
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+
+
+
+
+        </div>
+        <main>
+            <!-- Other content -->
+
+
+
+            <main class="row my-4">
+                <div class="col-11 m-auto">
+                    <div id="notLoggedInMsg" class="alert alert-warning" style="display: none;">
+                        ⚠️ You are not logged in. Please login to access features.
+                    </div>
+            </main>
+            <div class="row">
+                <div class="col-12 col-lg-10 m-auto car d-flex justify-content-center p-0 p-md-3 border rounded-2 my-3">
+
+                    <div class="d-flex w-100 row flex-column-reverse flex-lg-row ">
+                        <div class=" col-12 col-lg-6">
+                            <div class="vis1" id="v1">
+                                <canvas class="chart" id="myChart1"></canvas>
+                            </div>
+                        </div>
+                        <div class="col-12 col-lg-6">
+                            <h3>Income vs. Expenses Overview</h3>
+                            <p class="text-muted">Explore a clear visual breakdown of your income and expenses over
+                                the past 5 months. This chart helps you easily
+                                identify spending patterns and track financial growth.</p>
+
+                        </div>
+                    </div>
+
+
+                </div>
+
+                <div
+                    class="col-12 car col-lg-10 m-auto d-flex justify-content-center bg-light p-0 p-md-3 border rounded-2 my-3">
+                    <div class="d-flex w-100 row flex-column-reverse flex-lg-row">
+                        <div class="col-12 col-lg-6">
+                            <div class="vis1" id="v1">
+                                <canvas class="chart" id="myChart2"></canvas>
+                            </div>
+                        </div>
+                        <div class="col-12 col-lg-6">
+                            <h3>Income By Month</h3>
+                            <p class="text-muted">Here using this chart you can visualize the past five month
+                                income.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div
+                    class="col-12 col-lg-10 car m-auto d-flex justify-content-center bg-light p-0 p-md-3 border rounded-2 my-3">
+                    <div class="d-flex w-100 row flex-column-reverse flex-lg-row">
+                        <div class=" col-12 col-lg-6">
+                            <div class="vis1" id="v1">
+                                <canvas class="chart" id="myChart3"></canvas>
+                            </div>
+                        </div>
+                        <div class="col-12 col-lg-6">
+                            <h3>Expense by category</h3>
+                            <p class="text-muted"> Here you can see the visualization of you entire category wise
+                                expenses.</p>
+                        </div>
+                    </div>
+                </div>
+
+
+
+
+                <div
+                    class="col-12 col-lg-10 car m-auto d-flex justify-content-center bg-light p-0 p-md-3 border rounded-2 my-3">
+                    <div class="d-flex w-100 row flex-column-reverse flex-lg-row g-2">
+                        <div class=" col-12 col-lg-6 ">
+                            <div class="vis1 d-flex  row" id="v1">
+                                <div>
+                                    <p style="font-weight: 700;">Monthly Budget vs Expense</p>
+                                </div>
+                                <div>
+                                    <label for="currbudget" class="form-label">Budget</label>
+                                    <input type="number" name="currbudget" id="currbudget" onchange="setBudget()"
+                                        placeholder="Your can change here" class="form-control text-success">
+                                </div>
+                                <div class="col-6">
+                                    <label for="curexp" class="form-label">Expenses</label>
+                                    <input type="number" name="curexp" id="curexp" disabled
+                                        class="form-control text-danger"
+                                        style="height: 80px; text-align: center; font-weight: 800;">
+                                </div>
+                                <div class="col-6">
+                                    <label for="balance" class="form-label">Balance</label>
+                                    <input type="number" name="balance" id="balance" class="form-control text-info"
+                                        disabled style="height: 80px; text-align: center; font-weight: 800;">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-lg-6">
+                            <div class="vis1" id="v1">
+                                <canvas class="chart" id="myChart7"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div
+                    class="col-12 row col-lg-10 car m-auto d-flex justify-content-center bg-light p-0 p-md-3 border rounded-2 my-3">
+                    <div class="col-12">
+                        <h3>Use the Filter to See the Chart</h3>
+                    </div>
+                    <div class="d-flex w-100 row flex-column-reverse flex-lg-row g-2">
+
+
+
+                        <div class="col-12 col-lg-6">
+                            <div class="vis1" id="v1">
+                                <div class="row ps-3">
+                                    <div class="col-11">
+                                        <label for="startdate" class="form-label">Start-Date</label>
+                                        <input type="date" id="startDate" class="form-control">
+                                    </div>
+                                    <div class="col-11">
+                                        <label for="endDate" class="form-label">End-Date</label>
+                                        <input type="date" id="endDate" class="form-control">
+                                    </div>
+                                    <div class="col-11 pt-2">
+                                        <button onclick="filterAndShow()" class="form-control btn btn-success ">Show
+                                            Chart</button>
+                                    </div>
+
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-lg-6">
+
+                            <div class="vis1 position-relative" id="v1">
+
+                                <canvas class="chart" id="myChart6"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+
+    </div>
+
+    </div>
+
+
+    </main>
+
+
+    </div>
+    <footer class=" bg-black text-white-50" style="min-height: 100px;">
+        <div class="row ">
+            <div class="col-6">
+                <div class="p-5">
+                    <h3>Contact Us</h3>
+                    <p>
+                        <bold>Email </bold><a href="#" class="text-decoration-none">sathishksv2003@gmail.com</a>
+                    </p>
+                    <p>
+                        <bold>Phone </bold><a href="#" class="text-decoration-none text-white">+91 973423684263</a>
+                    </p>
+                </div>
+            </div>
+            <div class="col-6 w-50 d-flex justify-content-center align-items-center">
+                <div>
+
+                    <h4>About</h4>
+                    <p style="font-size: 0.8rem; text-indent: 15px; width: 300px;">This product is used for tracked a
+                        expenses of a
+                        person.using the visualization you can understand the behaviour of you money</p>
+                </div>
+            </div>
+            <div class="col-12">
+                <div class="">
+                    <p class="text-center">
+                        © Copyright
+                        © 2025 expenses Tracker. All rights reserved.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+    </footer>
+    <script src="script.js"></script>
+    <script src="database.js"></script>
+    <script src="trasacdb.js"></script>
+    <script src="forvis.js"></script>
+    <script src="notification.js"></script>
+</body>
+
+</html>

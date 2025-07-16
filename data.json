@@ -1,0 +1,100 @@
+[
+  {
+    "amount": 2000,
+    "type": "CashOut",
+    "source": "Rent",
+    "desc": "Monthly apartment rent",
+    "Support-File": "rent_receipt.pdf",
+    "day": "2025-07-01"
+  },
+  {
+    "amount": 500,
+    "type": "CashOut",
+    "source": "Food",
+    "desc": "Lunch with friends",
+    "Support-File": "food_invoice.jpg",
+    "day": "2025-07-02"
+  },
+  {
+    "amount": 800,
+    "type": "CashOut",
+    "source": "Travel",
+    "desc": "Bus ticket to home",
+    "Support-File": "ticket.pdf",
+    "day": "2025-07-03"
+  },
+  {
+    "amount": 1200,
+    "type": "CashOut",
+    "source": "Home",
+    "desc": "Electricity bill",
+    "Support-File": "bill.jpg",
+    "day": "2025-07-04"
+  },
+  {
+    "amount": 250,
+    "type": "CashOut",
+    "source": "Outing",
+    "desc": "Movie and snacks",
+    "Support-File": "movie_receipt.jpg",
+    "day": "2025-07-05"
+  },
+  {
+    "amount": 300,
+    "type": "CashOut",
+    "source": "Essentials",
+    "desc": "Toiletries and cleaning items",
+    "Support-File": "essentials_bill.pdf",
+    "day": "2025-07-06"
+  },
+  {
+    "amount": 150,
+    "type": "CashOut",
+    "source": "Others",
+    "desc": "Gift for a friend",
+    "Support-File": "gift_invoice.jpg",
+    "day": "2025-07-07"
+  },
+  {
+    "amount": 1000,
+    "type": "CashOut",
+    "source": "Rent",
+    "desc": "Advance for new flat",
+    "Support-File": "advance_receipt.pdf",
+    "day": "2025-07-08"
+  },
+  {
+    "amount": 700,
+    "type": "CashOut",
+    "source": "Food",
+    "desc": "Grocery shopping",
+    "Support-File": "grocery_bill.jpg",
+    "day": "2025-07-09"
+  },
+  {
+    "amount": 400,
+    "type": "CashOut",
+    "source": "Outing",
+    "desc": "Weekend trip",
+    "Support-File": "outing_expenses.pdf",
+    "day": "2025-07-10"
+  },
+  {
+    "amount": 600,
+    "type": "CashOut",
+    "source": "Travel",
+    "desc": "Taxi to airport",
+    "Support-File": "taxi_bill.jpg",
+    "day": "2025-07-11"
+  },
+  {
+    "amount": 900,
+    "type": "CashOut",
+    "source": "Essentials",
+    "desc": "New kitchen tools",
+    "Support-File": "kitchen_items.pdf",
+    "day": "2025-07-12"
+  }
+]
+
+

@@ -1,0 +1,98 @@
+.vis1 {
+
+    max-width: 450px;
+    max-height: 250px;
+    height: 250px;
+    min-width: 350px;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgb(255, 255, 255);
+}
+
+.vis1:hover {
+    box-shadow: 2px 3px 5px rgba(0, 0, 0, 0.815);
+}
+
+body {
+    /* background: #040146; */
+    background-color: rgba(250, 249, 249, 0.945);
+    /* background: linear-gradient(90deg,rgb(35, 24, 238) 0%, rgb(57, 57, 203) 35%, rgba(0, 212, 255, 1) 100%); */
+}
+
+canvas {
+    width: 100% !important;
+    height: 100% !important;
+}
+
+/* .vis1:hover{
+    transform: scale(1.2);
+    transition:cubic-bezier(0.165, 0.84, 0.44, 1) 0.5s;
+} */
+
+.navbar {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    /* background-color: rgba(250, 250, 230, 0.932) !important;
+    
+    box-shadow: 2px 3px 5px black; */
+
+    z-index: 1000;
+}
+
+.navbar a {
+    color: white !important;
+}
+
+.navbar a:hover {
+    border-bottom: rgb(61, 206, 32) 2px solid;
+
+}
+
+.car {
+    background-color: rgba(218, 229, 233, 0.733) !important;
+    box-shadow: 2px 2px 5px rgb(58, 56, 56);
+
+}
+
+.toast-notification {
+    position: fixed;
+    top: 100px;
+    right: 30px;
+    background-color: #1ff518;
+    color: #fff;
+    padding: 12px 20px;
+    border-radius: 5px;
+    box-shadow: 3px 4px 12px rgba(0, 0, 0, 0.3);
+    z-index: 9000000 !important;
+    opacity: 0.95;
+    transition: opacity 0.3s ease;
+    font-size: 1rem;
+}
+
+.toast-notificationdanger {
+    position: fixed;
+    top: 50px;
+    right: 30px;
+    background-color: #f54418;
+    color: #fff;
+    padding: 12px 20px;
+    border-radius: 5px;
+    box-shadow: 3px 4px 12px rgba(0, 0, 0, 0.3);
+    z-index: 900000000000 !important;
+    opacity: 0.95;
+    transition: opacity 0.3s ease;
+    font-size: 1rem;
+}
+
+#staticBackdrop,
+#staticBackdrop1 {
+    background-color: rgba(87, 98, 112, 0.61) !important;
+
+}
+
+.modal-content {
+    background-color: #f0f8ff;
+
+}
