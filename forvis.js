@@ -12,9 +12,10 @@ document.addEventListener("DOMContentLoaded", function () {
     const c6 = document.getElementById("myChart7").getContext('2d');
     const curexp = document.getElementById("curexp");
     const balance = document.getElementById("balance");
+    const budgetdis = document.getElementById("currbudget");
 
 
- 
+    
 
 
     const data1 = {
@@ -129,7 +130,6 @@ document.addEventListener("DOMContentLoaded", function () {
                 });
             }
 
-
             allTx.forEach(tx => {
                 const txDate = new Date(tx.day);
                 const key = `${txDate.getFullYear()}-${txDate.getMonth() + 1}`;
@@ -195,11 +195,11 @@ document.addEventListener("DOMContentLoaded", function () {
                 }
             });
 
-            // Prepare data3 for bar chart (Income by month)
+         
             data3.labels = months;
             data3.datasets[0].data = incomes;
 
-            // Define config before using it
+          
             const config = {
                 type: 'bar',
                 data: data3,
@@ -217,14 +217,18 @@ document.addEventListener("DOMContentLoaded", function () {
                 },
             };
 
-            // Render bar chart for t3
+        
             new Chart(t3, config);
+
+            
+
             let newbud = localStorage.getItem('userbudget');
             if (newbud > 0) {
+                budgetdis.innerText=localStorage.getItem('userbudget');
                 let total = expenses[expenses.length - 1];
-                curexp.value = total;
+                curexp.innerHTML = total;
                 let bal = localStorage.getItem('userbudget') - total;
-                balance.value = bal;
+                balance.innerText = bal;
             }
   
             let tempbud =localStorage.getItem('userbudget')-expenses[expenses.length -1];
@@ -234,8 +238,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     label: 'My First Dataset',
                     data: [tempbud,expenses[expenses.length -1]],
                     backgroundColor: [
-                        'rgb(255, 99, 132)',
-                        'rgb(54, 162, 235)',
+                        tempbud > 0 ?'rgb(54, 162, 235)': 'rgb(243, 37, 37)',
                         'rgb(255, 205, 86)'
                     ],
                     hoverOffset: 4
@@ -274,15 +277,7 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 
-function filterByDateRange(startDate, endDate) {
-    const start = new Date(startDate);
-    const end = new Date(endDate);
 
-    return transactionlist.filter(tx => {
-        const txDate = new Date(tx.day);
-        return txDate >= start && txDate <= end;
-    });
-}
 
 
 
@@ -296,7 +291,7 @@ function groupExpensesByDay(transactions) {
         }
     });
 
-    const labels = Object.keys(result).sort(); // sorted dates
+    const labels = Object.keys(result).sort();
     const data = labels.map(date => result[date]);
 
     return { labels, data };
@@ -329,15 +324,39 @@ function renderChart(defaultLabels, defaultData) {
 }
 
 
+function filterByDateRange(startDate, endDate) {
+    const start = new Date(startDate);
+    const end = new Date(endDate);
+
+    return transactionlist.filter(tx => {
+        const txDate = new Date(tx.day);
+        return txDate >= start && txDate <= end;
+    });
+}
+
 
 function filterAndShow() {
-    console.log("clicked");
+    
     const start = document.getElementById("startDate").value;
     const end = document.getElementById("endDate").value;
+
+    if(start>end){
+        alert("Enter the valid date!");
+        return;
+    }
+    if(start == ""){
+        alert("enter the valid date!");
+        return;
+    }
     const filtered = filterByDateRange(start, end);
-    const { labels, data } = groupExpensesByDay(filtered);
-    renderChart(labels, data);
+    
+    console.log("Filtered data:", filtered);
+const { labels, data } = groupExpensesByDay(filtered);
+console.log("Grouped labels:", labels);
+console.log("Grouped data:", data);
+renderChart(labels, data);
 }
+
 
 
 

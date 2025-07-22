@@ -15,6 +15,7 @@
     <link rel="stylesheet" href="../style.css">
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"
         integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    
     <title>Display</title>
 </head>
 
@@ -22,8 +23,8 @@
 
     <div class="container-fluid ">
 
-        <nav class="navbar navbar-expand-lg bg-body-tertiary  position-sticky start-0  m-auto rounded-5"
-            style="top: 10px  !important; width: 95% !important;">
+        <nav class="navbar navbar-expand-lg bg-body-tertiary  position-sticky start-0  m-auto rounded-3"
+            style="top: 10px  !important;">
             <div class="container-fluid ">
                 <a class="navbar-brand" href="../index.html">Expense-Tracker</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
@@ -68,26 +69,27 @@
                         <div class="w-100">
                             <form action="" class="row" id="cashinform">
                                 <div class="col-12 col-md-6 g-2">
-                                    <div>
+                                    <div class="border-bottom border-dark">
                                         <label for="amount" class="form-label">Amount</label>
-                                        <input type="number" required id="amount" name="amount" class="form-control"
+                                        <input type="number" required id="amount" name="amount" class="form-control bg-transparent border-0"
                                             placeholder="ex: 2000">
                                     </div>
                                 </div>
                                 <div class="col-12 col-md-6 g-2">
-                                    <div>
+                                    <div class="border-bottom border-dark">
                                         <label for="refno" class="form-label">Reference No</label>
-                                        <input type="text" id="refno" name="refno" class="form-control" placeholder="">
+                                        <input type="text" id="refno" name="refno" class="form-control bg-transparent border-0" placeholder="">
                                     </div>
                                 </div>
                                 <div class="col-12 col-md-6 g-2">
-                                    <div>
+                                    <div class="border-bottom border-dark" >
                                         <label for="type" class="form-label">Type</label>
-                                        <input type="text" required id="type" name="type" class="form-control"
+                                        <input type="text" required id="type" name="type" class="form-control "
                                             placeholder="" disabled value="CashIn">
                                     </div>
                                 </div>
-                                <div class="col-12 col-md-6 g-2">
+                                
+                                <!-- <div class="col-12 col-md-6 g-2">
                                     <div>
                                         <label for="mode" class="form-label">Payment Mode</label>
                                         <select name="mode" id="mode" aria-placeholder="" class="form-select">
@@ -112,6 +114,27 @@
                                             <option value="Others">Others</option>
                                         </select>
                                     </div>
+                                </div> -->
+
+                                <div class="col-12 col-md-6 g-2">
+                                    <label class="form-label">Payment Mode</label>
+                                    <div class="custom-dropdown border-bottom border-dark" data-id="cashinpaymentMode">
+                                        <input type="text" class="dropdownInput form-control bg-transparent border-0" name="mode"
+                                            placeholder="Choose or type..." />
+                                        <button class="btn addOptionBtn btn-sm btn-primary mt-2">Add Option</button>
+                                        <div class="dropdown-options"></div>
+                                    </div>
+                                </div>
+
+
+                                <div class="col-12 g-2">
+                                    <label class="form-label">Source of Income</label>
+                                    <div class="custom-dropdown border-bottom border-dark" data-id="cashinsourceIncome">
+                                        <input type="text" class="dropdownInput form-control bg-transparent border-0" name="source"
+                                            placeholder="Choose or type..." />
+                                        <button class="btn addOptionBtn btn-sm btn-primary mt-2">Add Option</button>
+                                        <div class="dropdown-options"></div>
+                                    </div>
                                 </div>
                                 <div class="col-12 col-md-6 g-2">
                                     <div>
@@ -121,9 +144,9 @@
                                     </div>
                                 </div>
                                 <div class="col-12 col-md-6 g-2">
-                                    <div>
-                                        <label for="day" class="form-label">Date</label>
-                                        <input type="date" required id="day" name="day" class="form-control"
+                                    <div class="border-bottom border-dark">
+                                        <label for="day" class="form-label ">Date</label>
+                                        <input type="date" required id="day" name="day" class="form-control bg-transparent border-0"
                                             placeholder="">
                                     </div>
                                 </div>
@@ -157,39 +180,57 @@
         </div>
 
 
-        <div class="modal fade" id="staticBackdrop1" data-bs-backdrop="static" data-bs-keyboard="false"
-                tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-                <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h1 class="modal-title fs-5" id="staticBackdropLabel">Cash-out</h1>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                            <div class="w-100">
-                                <form action="" class="row" id="cashoutform">
-                                    <div class="col-12 col-md-6 g-2">
-                                        <div>
-                                            <label for="amount" class="form-label">Amount</label>
-                                            <input type="number" required id="amount" name="amount" class="form-control"
-                                                placeholder="ex: 2000">
-                                        </div>
+        <div class="modal fade" id="staticBackdrop1" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+            aria-labelledby="staticBackdropLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="staticBackdropLabel">Cash-out</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="w-100">
+                            <form action="" class="row" id="cashoutform">
+                                <div class="col-12 col-md-6 g-2">
+                                    <div class="border-bottom border-dark">
+                                        <label for="amount" class="form-label">Amount</label>
+                                        <input type="number" required id="amount" name="amount" class="form-control bg-transparent border-0"
+                                            placeholder="ex: 2000">
                                     </div>
-                                    <div class="col-12 col-md-6 g-2">
-                                        <div>
-                                            <label for="refno" class="form-label">Reference No</label>
-                                            <input type="text" id="refno" name="refno" class="form-control"
-                                                placeholder="">
-                                        </div>
+                                </div>
+                                <div class="col-12 col-md-6 g-2">
+                                    <div class="border-bottom border-dark">
+                                        <label for="refno" class="form-label">Reference No</label>
+                                        <input type="text" id="refno" name="refno" class="form-control bg-transparent border-0" placeholder="">
                                     </div>
-                                    <div class="col-12 col-md-6 g-2">
-                                        <div>
-                                            <label for="type" class="form-label">Type</label>
-                                            <input type="text" required id="type" name="type" class="form-control"
-                                                placeholder="" disabled value="CashOut">
-                                        </div>
+                                </div>
+                                <div class="col-12 col-md-6 g-2">
+                                    <div class="border-bottom border-dark">
+                                        <label for="type" class="form-label">Type</label>
+                                        <input type="text" required id="type" name="type" class="form-control"
+                                            placeholder="" disabled value="CashOut">
                                     </div>
-                                    <div class="col-12 col-md-6 g-2">
+                                </div>
+                                <div class="col-12 col-md-6 g-2">
+                                    <label class="form-label">Payment Mode</label>
+                                    <div class="custom-dropdown border-bottom border-dark" data-id="paymentMode">
+                                        <input type="text" class="dropdownInput form-control bg-transparent border-0" name="mode"
+                                            placeholder="Choose or type..." />
+                                        <button type="button" class="btn addOptionBtn btn-sm btn-primary mt-2">Add Option</button>
+                                        <div class="dropdown-options"></div>
+                                    </div>
+                                </div>
+
+                                <div class="col-12 g-2">
+                                    <label class="form-label">Source of Expense</label>
+                                    <div class="custom-dropdown border-bottom border-dark" data-id="expenseSource">
+                                        <input type="text" class="dropdownInput form-control bg-transparent border-0" name="source"
+                                            placeholder="Choose or type..." />
+                                        <button type="button" class="btn addOptionBtn btn-sm btn-primary mt-2">Add Option</button>
+                                        <div class="dropdown-options"></div>
+                                    </div>
+                                </div>
+                                <!-- <div class="col-12 col-md-6 g-2">
                                         <div>
                                             <label for="mode" class="form-label">Payment Mode</label>
                                             <select name="mode" id="mode" aria-placeholder="" class="form-select">
@@ -202,7 +243,17 @@
                                             </select>
                                         </div>
                                     </div>
-                                    <div class="col-12 g-2">
+
+                                    <div class="col-12  g-2">
+                                        <label for="dropdownInput" class="form-label">Source of Expense:</label>
+                                        <div class="custom-dropdown" id="customDropdown">
+                                            <input type="text" id="dropdownInput" name="source" placeholder="Choose or type..." />
+                                            <button id="addOptionBtn" class="btn addOptionBtn btn-sm btn-primary mt-2">Add Option</button>
+                                            <div class="dropdown-options" id="dropdownOptions"></div>
+                                          </div>
+                                    </div> -->
+
+                                <!-- <div class="col-12 g-2">
                                         <div>
                                             <label for="source" class="form-label">Source of Expense:</label>
                                             <select name="source" id="outsource" class="form-select">
@@ -216,52 +267,52 @@
                                                 <option value="Others">Others</option>
                                             </select>
 
-                                            <!-- This must be present -->
+                            
                                             <input type="text" id="customSource" placeholder="Enter custom source"
                                                 class="form-control mt-2" style="display: none;">
                                         </div>
+                                    </div> -->
+                                <div class="col-12 col-md-6 g-2">
+                                    <div>
+                                        <label for="Support-File" class="form-label">Support File</label>
+                                        <input type="file" id="Support-File" name="Support-File" class="form-control"
+                                            placeholder=".png,.jpg, .pdf .etc...">
                                     </div>
-                                    <div class="col-12 col-md-6 g-2">
-                                        <div>
-                                            <label for="Support-File" class="form-label">Support File</label>
-                                            <input type="file" id="Support-File" name="Support-File"
-                                                class="form-control" placeholder=".png,.jpg, .pdf .etc...">
-                                        </div>
+                                </div>
+                                <div class="col-12 col-md-6 g-2">
+                                    <div class="border-bottom border-dark">
+                                        <label for="day" class="form-label">Date</label>
+                                        <input type="date" required id="day" name="day" class="form-control bg-transparent border-0"
+                                            placeholder="">
                                     </div>
-                                    <div class="col-12 col-md-6 g-2">
-                                        <div>
-                                            <label for="day" class="form-label">Date</label>
-                                            <input type="date" required id="day" name="day" class="form-control"
-                                                placeholder="">
-                                        </div>
+                                </div>
+                                <div class="col-12 g-2">
+                                    <div>
+                                        <label for="desc" class="form-label">Description</label>
+                                        <textarea name="desc" id="desc" class="form-control"></textarea>
                                     </div>
-                                    <div class="col-12 g-2">
-                                        <div>
-                                            <label for="desc" class="form-label">Description</label>
-                                            <textarea name="desc" id="desc" class="form-control"></textarea>
-                                        </div>
+                                </div>
+
+                                <div class="col-6 g-2">
+                                    <div>
+                                        <button type="reset" class="btn btn-danger form-control">Clear</button>
                                     </div>
 
-                                    <div class="col-6 g-2">
-                                        <div>
-                                            <button type="reset" class="btn btn-danger form-control">Clear</button>
-                                        </div>
-
+                                </div>
+                                <div class="col-6 g-2">
+                                    <div>
+                                        <button type="submit" class="btn btn-success form-control">Submit</button>
                                     </div>
-                                    <div class="col-6 g-2">
-                                        <div>
-                                            <button type="submit" class="btn btn-success form-control">Submit</button>
-                                        </div>
 
-                                    </div>
-                                </form>
+                                </div>
+                            </form>
 
-                            </div>
                         </div>
-
                     </div>
+
                 </div>
             </div>
+        </div>
 
         <div class="col-11 m-auto">
             <h1 class="text-center">Data</h1>
@@ -270,18 +321,18 @@
                 <!--Filter bar-->
 
                 <div class="row border shadow-sm mb-4 roudned-2">
-                    <div class="col-4 p-2">
+                    <div class="col-12 col-md-4 p-2">
                         <input type="text" id="startdate" class="form-control" placeholder="Enter the Start Date"
                             onfocus="this.type='date'">
                     </div>
-                    <div class="col-3 p-2">
+                    <div class="col-12 col-md-3 p-2">
                         <input type="text" class="form-control" id="enddate" placeholder="Enter the End date"
                             onfocus="this.type='date'">
                     </div>
-                    <div class="col-2  p-2">
+                    <div class="col-6 col-md-2  p-2">
                         <button class="btn btn-primary float-end" onclick="filterByDate()">Search</button>
                     </div>
-                    <div class="col-2  p-2">
+                    <div class="col-5 col-md-2  p-2">
                         <button class="btn btn-success" onclick="exportdata1()"><i
                                 class="fas fa-download me-2"></i>Export Data</button>
                     </div>
@@ -323,8 +374,8 @@
 
 
 
-            <div class="tabcon">
-                <table class="table table-bordered table-light table-hover table-striped">
+            <div class="tabcon overflow-x-scroll">
+                <table class="table table-bordered table-light table-hover table-striped ">
                     <thead>
                         <th>Reference</th>
                         <th>Date</th>

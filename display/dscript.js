@@ -1,3 +1,100 @@
+const dropdownData = {
+  paymentMode: ["NEFT", "UPI", "cash", "Cheque", "Others"],
+  expenseSource: ["Rent", "Food", "Travel", "Home"],
+  cashinpaymentMode: ["NEFT", "UPI", "cash", "Cheque", "Others"],
+  cashinsourceIncome: ["Salary", "Home", "Part-time", "Gift", "Others"]
+};
+
+document.querySelectorAll('.custom-dropdown').forEach(dropdown => {
+  const input = dropdown.querySelector('.dropdownInput');
+  const add = dropdown.querySelector('.addOptionBtn');
+  const optionsContainer = dropdown.querySelector('.dropdown-options');
+  const dropdownId = dropdown.getAttribute('data-id');
+
+  let options = dropdownData[dropdownId] || [];
+
+
+  input.addEventListener("click", () => {
+    optionsContainer.style.display = "block";
+    renderOptions();
+  });
+
+
+  document.addEventListener("click", (e) => {
+    if (!dropdown.contains(e.target)) {
+      optionsContainer.style.display = "none";
+    }
+  });
+
+  add.addEventListener("click", () => {
+    const value = input.value.trim();
+    if (!value) return alert("Please enter a value.");
+    if (options.includes(value)) return alert("Option already exists.");
+    options.push(value);
+    dropdownData[dropdownId] = options;
+    input.value = value;
+    renderOptions();
+    optionsContainer.style.display = "none";
+  });
+
+  function renderOptions() {
+    optionsContainer.innerHTML = "";
+
+    options.forEach((opt, index) => {
+      const optionDiv = document.createElement("div");
+      optionDiv.classList.add("option");
+      optionDiv.style.display = "flex";
+      optionDiv.style.justifyContent = "space-between";
+      optionDiv.style.alignItems = "center";
+      optionDiv.style.padding = "5px";
+      optionDiv.style.borderBottom = "1px solid #ddd";
+      optionDiv.style.cursor = "pointer";
+
+      const span = document.createElement("span");
+      span.textContent = opt;
+
+      const btns = document.createElement("div");
+      btns.className = "option-buttons";
+
+      const editBtn = document.createElement("button");
+      editBtn.textContent = "✏️";
+      editBtn.style.marginRight = "5px";
+      editBtn.onclick = (e) => {
+        e.stopPropagation();
+        const newValue = prompt("Edit option:", opt);
+        if (newValue && !options.includes(newValue)) {
+          options[index] = newValue;
+          dropdownData[dropdownId] = options;
+          renderOptions();
+        }
+      };
+
+      const deleteBtn = document.createElement("button");
+      deleteBtn.textContent = "🗑️";
+      deleteBtn.onclick = (e) => {
+        e.stopPropagation();
+        options.splice(index, 1);
+        dropdownData[dropdownId] = options;
+        renderOptions();
+      };
+
+      btns.appendChild(editBtn);
+      btns.appendChild(deleteBtn);
+
+      optionDiv.appendChild(span);
+      optionDiv.appendChild(btns);
+
+      optionDiv.addEventListener("click", () => {
+        input.value = opt;
+        optionsContainer.style.display = "none";
+      });
+
+      optionsContainer.appendChild(optionDiv);
+    });
+  }
+});
+
+
 function displayTransactions(transactions) {
   const container = document.getElementById("transactionList");
   container.innerHTML = "";
@@ -25,8 +122,8 @@ function applyFilters() {
 
   $("#transactionList tr").each(function () {
     const row = $(this);
-    const type = row.find("td:nth-child(4)").text().toLowerCase();     // 4th column = Type
-    const source = row.find("td:nth-child(3)").text().toLowerCase();   // 3rd column = Source
+    const type = row.find("td:nth-child(4)").text().toLowerCase();     
+    const source = row.find("td:nth-child(3)").text().toLowerCase();   
 
     const matchType = !selectedType || type === selectedType;
     const matchSource = !selectedSource || source === selectedSource;
@@ -48,58 +145,60 @@ $(function () {
 
 $("#filterType, #filterSource").on("change", applyFilters);
 
-
 $(function () {
   const form = $('#cashinform');
-  if (form.length === 0) {
-    console.warn("#cashinform not found in DOM");
-  } else {
-    form.on('submit', function (e) {
-
-      e.preventDefault();
-      const invaldata = {};
-      const invalu = form.find('input[name], select[name],textarea[name]');
-
-      invalu.each(function () {
-        const name = $(this).attr('name');
-        const value = $(this).val();
-        invaldata[name] = value;
-      });
-      const username = localStorage.getItem("loggedInUser"); // from login
-      if (!username) return confirm("User not logged in.");
 
 
+  form.on('submit', function (e) {
+    e.preventDefault();
 
+    const invaldata = {};
+    const invalu = form.find('input[name], select[name],textarea[name]');
 
-      console.log({ username, ...invaldata });
-      addTransaction({ username, ...invaldata });
-
-      setTimeout(() => {
-        form[0].reset();
-      }, 1000);
-
+    invalu.each(function () {
+      const name = $(this).attr('name');
+      const value = $(this).val();
+      invaldata[name] = value;
     });
-  }
 
+    const username = localStorage.getItem("loggedInUser");
+    if (!username) return alert("User not logged in.");
+
+    const editId = form.data("edit-id");
+    if (editId !== undefined) {
+      updateTransaction(editId, { username, ...invaldata });
+      form.removeData("edit-id"); 
+    } else {
+      addTransaction({ username, ...invaldata });
+      loadUserTransactions();
+    }
+
+    setTimeout(() => {
+      form[0].reset();
+    }, 1000);
+  });
 });
+
+
+
 
 $(function () {
   const form = $('#cashoutform');
-  const sourceSelect = $('#outsource');
-  const customSourceInput = $('#customSource');
+  // const sourceSelect = $('#outsource');
+  // const customSourceInput = $('#customSource');
 
-  if (form.length === 0) {
-    console.warn("#cashoutform not found in DOM");
-    return;
-  }
-
-  sourceSelect.on('change', function () {
-    if ($(this).val() === 'Others') {
-      customSourceInput.show().prop('required', true);
-    } else {
-      customSourceInput.hide().val('').prop('required', false);
-    }
-  });
+  // sourceSelect.on('change', function () {
+  //   if ($(this).val() === 'Others') {
+  //     customSourceInput.show();
+  //     customSourceInput.on('change', () => {
+  //       const temp = customSourceInput.val();
+  //       const newOption = new Option(temp, temp);
+  //       sourceSelect.append(newOption);
+  //       sourceSelect.val(temp);
+  //       customSourceInput.hide();
+  //     });
+  //   }
+  // });
 
   form.on('submit', function (e) {
     e.preventDefault();
@@ -113,66 +212,22 @@ $(function () {
       outvaldata[name] = value;
     });
 
-
-    if (sourceSelect.val() === 'Others') {
-      const customValue = customSourceInput.val().trim();
-      if (!customValue) {
-        alert("Please enter a custom source.");
-        return;
-      }
-      outvaldata['source'] = customValue;
-    }
-
     const username = localStorage.getItem("loggedInUser");
-    if (!username) {
-      alert("User not logged in.");
-      return;
-    }
+    if (!username) return alert("User not logged in.");
 
-    console.log({ username, ...outvaldata });
-    addTransaction({ username, ...outvaldata });
+    const editId = form.data("edit-id");
+    if (editId !== undefined) {
+      updateTransaction(editId, { username, ...outvaldata });
+      form.removeData("edit-id");
+    } else {
+      addTransaction({ username, ...outvaldata });
+    }
 
     setTimeout(() => {
       form[0].reset();
-      customSourceInput.hide(); // Hide custom field on reset
     }, 1000);
   });
 });
-
-
-// $(function () {
-//   const form = $('#cashoutform');
-//   if (form.length === 0) {
-//     console.warn("#cashinform not found in DOM");
-//   } else {
-//     form.on('submit', function (e) {
-//       e.preventDefault();
-//       const invaldata = {};
-//       const invalu = form.find('input[name], select[name],textarea[name]');
-
-//       invalu.each(function () {
-//         const name = $(this).attr('name');
-//         const value = $(this).val();
-//         invaldata[name] = value;
-//       });
-//       const username = localStorage.getItem("loggedInUser"); // from login
-//       if (!username) return confirm("User not logged in.");
-
-
-
-
-//       console.log({ username, ...invaldata });
-//       addTransaction({ username, ...invaldata });
-
-//       setTimeout(() => {
-//         form[0].reset();
-//       }, 1000);
-
-//     });
-//   }
-
-// });
-
 
 
 function getTransactionsByUser(username, callback) {
@@ -192,12 +247,13 @@ function getTransactionsByUser(username, callback) {
   };
 }
 
-function loadUserTransactions() {
+function loadUserTransactions(callback) {
   const username = localStorage.getItem("loggedInUser");
   if (!username) return alert("User not logged in.");
 
   getTransactionsByUser(username, (transactions) => {
     displayTransactions(transactions);
+    if (callback) callback(transactions);
   });
 }
 
@@ -207,6 +263,8 @@ $(function () {
   $(document).on("click", '.delete', function () {
     console.log($(this).data("id"));
     const id = parseInt($(this).data("id"));
+    const a = confirm("plese Confirm before you delete");
+    if(!a){return};
     deleteTransactionById(id);
     $(this).parent().parent().remove();
     // showNotificationDanger("successfully Trasaction deleted");
@@ -221,9 +279,10 @@ $(function () {
   });
 });
 
+
+
 function editRecord(id) {
   const dbRequest = indexedDB.open("ExpenseTrackerDB", 1);
-
   dbRequest.onsuccess = function (e) {
     const db = e.target.result;
     const tx = db.transaction("transactions", "readonly");
@@ -236,6 +295,8 @@ function editRecord(id) {
     };
   };
 }
+
+
 
 function launchEditModal(id) {
   const dbRequest = indexedDB.open("ExpenseTrackerDB", 1);
@@ -254,10 +315,9 @@ function launchEditModal(id) {
         const modal = new bootstrap.Modal(document.getElementById(modalId));
         modal.show();
 
-
         const form = $(`#${modalId}`).find("form");
 
-
+        
         form.find('input[name], select[name], textarea[name]').each(function () {
           const fieldName = $(this).attr('name');
           if (txData.hasOwnProperty(fieldName)) {
@@ -265,14 +325,72 @@ function launchEditModal(id) {
           }
         });
 
-
-        window.currentEditId = txData.id;
-        deleteTransactionById(id);
+       
+        form.data("edit-id", txData.id);
       }
     };
   };
 }
 
+function calculateCurrentMonthExpenses(transactions) {
+  const now = new Date();
+  const currentYear = now.getFullYear();
+  const currentMonth = now.getMonth();
+
+  let total = 0;
+
+  transactions.forEach(tx => {
+    if (tx.type === 'CashOut') {
+      const txDate = new Date(tx.day);
+      if (
+        txDate.getFullYear() === currentYear &&
+        txDate.getMonth() === currentMonth
+      ) {
+        total += Number(tx.amount);
+      }
+    }
+  });
+
+  return total;
+}
+
+function checkBudget2(data) {
+  loadUserTransactions((transactions) => {
+    const lastAmount = calculateCurrentMonthExpenses(transactions);
+    const budget = Number(localStorage.getItem("userbudget")) || 0;
+    const testbudget = budget - (lastAmount + Number(data));
+
+    if (testbudget < 0) {
+      showNotificationDanger("You reached your budget limit.");
+    }
+    return true;
+  });
+}
+
+
+function updateTransaction(id, updatedData) {
+  const dbRequest = indexedDB.open("ExpenseTrackerDB", 1);
+
+  dbRequest.onsuccess = function (e) {
+    const db = e.target.result;
+    const tx = db.transaction("transactions", "readwrite");
+    const store = tx.objectStore("transactions");
+
+    const getRequest = store.get(id);
+
+    getRequest.onsuccess = function () {
+      const existing = getRequest.result;
+      if (existing) {
+        const updated = { ...existing, ...updatedData };
+        store.put(updated);
+        
+        showNotification("Transaction updated successfully.Please refresh!");
+        loadUserTransactions();
+        checkBudget2(updated.amount);
+      }
+    };
+  };
+}
 
 
 // const myModal = new bootstrap.Modal(document.getElementById('staticBackdrop1'));
@@ -318,10 +436,18 @@ function filterByDate() {
   const start = new Date(document.getElementById('startdate').value);
   const end = new Date(document.getElementById('enddate').value);
 
+  if(start>end){
+    alert("Give a valid date.")
+    return;
+  }
+end.setHours(23, 59, 59, 999);
 
-  end.setHours(23, 59, 59, 999);
 
-  getUserTransactions((transactions) => {
+  if(isNaN(start) || isNaN(end)){
+    alert("enter the valid daate");
+  }
+    console.log("working")
+    getUserTransactions((transactions) => {
     const filtered = transactions.filter(tx => {
       const txDate = new Date(tx.day);
       return txDate >= start && txDate <= end;
@@ -329,6 +455,7 @@ function filterByDate() {
 
     displayTransactions(filtered);
   });
+  
 }
 
 
@@ -380,16 +507,16 @@ function exportdata1() {
 
 
 function exportData(transaction) {
-  console.log("cliked");
+  console.log(transaction);
   const csvContent = "data:text/csv;charset=utf-8,"
-    + "Date,Description,Category,Type,Amount\n"
+    + "Date,Description,Category,Type,Amount,Reference\n"
     + transaction.map(t =>
-      `${t.day},${t.desc},${t.mode},${t.type},${t.amount},${t.reference}`
+      `${t.day},${t.desc},${t.mode},${t.type},${t.amount},${t.refno ?? ""}`
     ).join("\n");
 
   const encodedUri = encodeURI(csvContent);
   const link = document.createElement("a");
-  link.setAttribute("href", encodedUri);
+  link.setAttribute("href", encodedUri);  
   link.setAttribute("download", "transactions.csv");
   document.body.appendChild(link);
   link.click();
@@ -422,7 +549,7 @@ function filterByDat1(transactionlist, type) {
 
   switch (type) {
     case 'week': {
-      const startOfWeek = new Date(now.setDate(now.getDate() - now.getDay())); // Sunday
+      const startOfWeek = new Date(now.setDate(now.getDate() - now.getDay())); 
       const endOfWeek = new Date(startOfWeek);
       endOfWeek.setDate(startOfWeek.getDate() + 6);
 
@@ -463,3 +590,124 @@ function filterByDat1(transactionlist, type) {
   displayTransactions(filtered);
 }
 
+//for cash-out
+// $(function () {
+//   const form = $('#cashoutform');
+//   const sourceSelect = $('#outsource');
+//   const customSourceInput = $('#customSource');
+
+//   sourceSelect.on('change', function () {
+//     if ($(this).val() === 'Others') {
+//      customSourceInput.show();
+//       customSourceInput.on('change',()=>{
+      
+//         let temp = customSourceInput.val();
+//         console.log(temp);
+//       const temoption = new Option(temp,temp);
+//       sourceSelect.append(temoption);
+//       sourceSelect.value = temp; 
+//       customSourceInput.hide();
+//       })
+    
+//     }
+//   });
+//   form.on('submit', function (e) {
+//     e.preventDefault();
+
+//     const outvaldata = {};
+//     const outvalu = form.find('input[name], select[name], textarea[name]');
+
+//     outvalu.each(function () {
+//       const name = $(this).attr('name');
+//       const value = $(this).val();
+//       outvaldata[name] = value;
+//     });
+
+
+
+    
+
+//     const username = localStorage.getItem("loggedInUser");
+//     if (!username) {
+//       alert("User not logged in.");
+//       return;
+//     }
+
+//     console.log({ username, ...outvaldata });
+//     addTransaction({ username, ...outvaldata });
+
+//     setTimeout(() => {
+//       form[0].reset();
+//     }, 1000);
+//   });
+// });
+// function launchEditModal(id) {
+//   const dbRequest = indexedDB.open("ExpenseTrackerDB", 1);
+
+//   dbRequest.onsuccess = function (e) {
+//     const db = e.target.result;
+//     const tx = db.transaction("transactions", "readonly");
+//     const store = tx.objectStore("transactions");
+
+//     const req = store.get(Number(id));
+
+//     req.onsuccess = function () {
+//       const txData = req.result;
+//       if (txData) {
+//         const modalId = txData.type === "CashOut" ? "staticBackdrop1" : "staticBackdrop";
+//         const modal = new bootstrap.Modal(document.getElementById(modalId));
+//         modal.show();
+
+
+//         const form = $(`#${modalId}`).find("form");
+
+
+//         form.find('input[name], select[name], textarea[name]').each(function () {
+//           const fieldName = $(this).attr('name');
+//           if (txData.hasOwnProperty(fieldName)) {
+//             $(this).val(txData[fieldName]);
+//           }
+//         });
+
+
+//         window.currentEditId = txData.id;
+//         deleteTransactionById(id);
+//       }
+//     };
+//   };
+// }
+
+//for cash in
+// $(function () {
+//   const form = $('#cashinform');
+//   if (form.length === 0) {
+//     console.warn("#cashinform not found in DOM");
+//   } else {
+//     form.on('submit', function (e) {
+
+//       e.preventDefault();
+//       const invaldata = {};
+//       const invalu = form.find('input[name], select[name],textarea[name]');
+
+//       invalu.each(function () {
+//         const name = $(this).attr('name');
+//         const value = $(this).val();
+//         invaldata[name] = value;
+//       });
+//       const username = localStorage.getItem("loggedInUser"); // from login
+//       if (!username) return confirm("User not logged in.");
+
+
+
+
+//       console.log({ username, ...invaldata });
+//       addTransaction({ username, ...invaldata });
+
+//       setTimeout(() => {
+//         form[0].reset();
+//       }, 1000);
+
+//     });
+//   }
+
+// });

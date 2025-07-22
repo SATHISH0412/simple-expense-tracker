@@ -1,18 +1,102 @@
+:root{
+    --card1:rgb(144, 245, 77);
+    --card2:rgb(250, 70, 70);
+    --card3:rgb(116, 233, 248);
+    --backgroud:white;
+}
+
+
+.forbudget {
+    width: 300px;
+    height: 300px;
+    display: none;
+    background-color: rgb(75, 75, 175);
+    border-radius: 5px;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    right: calc(50% - 150px);
+    top: 60px;
+    z-index: 1000;
+}
+.forbudget>input{
+    border: none;
+    border-radius: 5px;
+    width: 150px;
+    height: 45px;
+    margin-bottom: 10px;
+}
+.forbudget>button{
+    width: 100px;
+    color: rgb(0, 0, 0);
+    font-weight: 600;
+    background-color: rgba(255, 255, 255, 0.808);
+}
+.clostbtn{
+    position: absolute;
+    width: 50px !important;
+    background-color: white !important;
+    font-size: 1.2rem;
+    top: 0px;
+    right: 0px;
+}
+.car1{
+    background-color: var(--card1);
+    box-shadow: 1px 1px 5px black;
+}
+.car2{
+    background-color: var(--card2);
+    box-shadow: 1px 1px 5px black;
+}
+.car3{
+    background-color: var(--card3);
+    box-shadow: 1px 1px 5px black;
+}
+.contentholder{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+}
+.chart {
+    width: 100% !important;
+    height: auto !important;
+}
+
+.myanimation:hover{
+    transform: translateY(-3px);
+    transition: all 0.1s ease-in;
+    box-shadow: 2px 2px 2px rgb(48, 46, 46);
+}
 .vis1 {
 
     max-width: 450px;
     max-height: 250px;
     height: 250px;
-    min-width: 350px;
+    min-width: 340px;
     border-radius: 20px;
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: rgb(255, 255, 255);
+    background-color: var(--backgroud);
 }
-
+.vis{
+    margin:20px 0px;
+   width: 60%;
+   height: 300px;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color:var(--backgroud);
+}
 .vis1:hover {
     box-shadow: 2px 3px 5px rgba(0, 0, 0, 0.815);
+}
+.chrt{
+    height: 400px;
 }
 
 body {
@@ -51,7 +135,7 @@ canvas {
 }
 
 .car {
-    background-color: rgba(218, 229, 233, 0.733) !important;
+    background-color:var(--backgroud);
     box-shadow: 2px 2px 5px rgb(58, 56, 56);
 
 }
@@ -96,3 +180,87 @@ canvas {
     background-color: #f0f8ff;
 
 }
+
+.dashboard-top{
+    display:  flex;
+    justify-content:space-evenly;
+    align-items: center;
+    width: 100%;
+    gap:5px;
+    height:auto;
+    text-transform: capitalize;
+}
+
+.for-topcard{
+    padding-top: 4px;
+    height: 100px;
+    color:black;
+    width: 250px;
+    text-align: center;
+    font-weight: 700;
+    border-radius:5px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+.for-topcard>p{
+    font-size: 2rem;
+}
+
+/* after */
+.custom-dropdown {
+    position: relative;
+    /* width: 100%; */
+    margin-bottom: 15px;
+  }
+  
+  .dropdownInput {
+    width: 100%;
+    padding: 8px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+  }
+  
+  .dropdown-options {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: var(--backgroud);
+    border: 1px solid #ccc;
+    max-height: 150px;
+    overflow-y: auto;
+    z-index: 10;
+  }
+  
+  .dropdown-options .option {
+    padding: 6px 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .dropdown-options .option:hover {
+    background-color: #f0f0f0;
+    cursor: pointer;
+  }
+  
+  .option-buttons {
+    display: flex;
+    gap: 5px;
+  }
+  
+  .option-buttons button {
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    font-size: 14px;
+  }
+  .addOptionBtn{
+    position: absolute;
+    top: -1px;
+    right: 10px;
+  }  
+  
+  
